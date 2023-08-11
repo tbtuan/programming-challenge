@@ -1,8 +1,10 @@
 package de.exxcellent.challenge;
 
+import de.exxcellent.challenge.models.Football;
 import de.exxcellent.challenge.models.Weather;
 import de.exxcellent.challenge.readers.CSVFileReader;
 import de.exxcellent.challenge.readers.Reader;
+import de.exxcellent.challenge.services.FootballService;
 import de.exxcellent.challenge.services.WeatherService;
 import de.exxcellent.challenge.verifiers.WeatherBeanVerifier;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,13 +21,13 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class AppTest {
 
-    private String successLabel = "not successful";
     private WeatherService weatherService;
+    private FootballService footballService;
 
     @BeforeEach
     void setUp() {
         weatherService = new WeatherService(null);
-        successLabel = "successful";
+        footballService = new FootballService(null);
     }
 
     @Test
@@ -87,8 +89,28 @@ class AppTest {
     }
 
     @Test
-    void aPointlessTest() {
-        assertEquals("successful", successLabel, "My expectations were not met");
+    void footballServiceTest() {
+        // 1.) Should return null (List is null)
+        List<Football> footballList = new LinkedList<>();
+        Football footballActual1 = footballService.getSmallestGoalSpread(null);
+        assertEquals(null, footballActual1);
+        // 2.) Should return null (List is empty)
+        Football footballActual2 = footballService.getSmallestGoalSpread(new LinkedList<>());
+        assertEquals(null, footballActual2);
+        // 3.) Should retrieve the football object with the smallest goal spread
+        Football football1 = new Football();
+        football1.setTeam("A");
+        football1.setGoals(3);
+        football1.setGoalsAllowed(1);
+        Football football2 = new Football();
+        football2.setTeam("B");
+        football2.setGoals(7);
+        football2.setGoalsAllowed(1);
+        footballList.add(football1);
+        footballList.add(football2);
+        Football footballActual3 = footballService.getSmallestGoalSpread(footballList);
+        Football footballExpected3 = football1;
+        assertEquals(footballExpected3, footballActual3);
     }
 
     @Test
