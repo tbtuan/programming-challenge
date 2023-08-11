@@ -6,6 +6,7 @@ import de.exxcellent.challenge.readers.CSVFileReader;
 import de.exxcellent.challenge.readers.Reader;
 import de.exxcellent.challenge.services.FootballService;
 import de.exxcellent.challenge.services.WeatherService;
+import de.exxcellent.challenge.verifiers.FootballBeanVerifier;
 import de.exxcellent.challenge.verifiers.WeatherBeanVerifier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,20 +48,38 @@ class AppTest {
     }
 
     @Test
-    void csvReaderVerifierTest() {
+    void csvReaderWeatherVerifierTest() {
         Reader<Weather> weatherReader = new CSVFileReader(Weather.class, new WeatherBeanVerifier(),
                 "mock/weather-malformed-mock.csv");
-        List<Weather> weathers = weatherReader.readAll();
+        List<Weather> weatherList = weatherReader.readAll();
         Weather weatherExpected = new Weather();
         weatherExpected.setDay(1);
         weatherExpected.setMaxTemperature(88);
         weatherExpected.setMinTemperature(59);
-        assertNotNull(weathers);
-        assertTrue(weathers.stream().count() == 1);
-        Weather weatherActual = weathers.get(0);
+        assertNotNull(weatherList);
+        assertTrue(weatherList.stream().count() == 1);
+        Weather weatherActual = weatherList.get(0);
         assertEquals(weatherExpected.getDay(), weatherActual.getDay());
         assertEquals(weatherExpected.getMaxTemperature(), weatherActual.getMaxTemperature());
         assertEquals(weatherExpected.getMinTemperature(), weatherActual.getMinTemperature());
+    }
+
+    @Test
+    void csvReaderFootballVerifierTest() {
+        Reader<Football> footballReader = new CSVFileReader(Football.class, new FootballBeanVerifier(),
+                "mock/football-malformed-mock.csv");
+        List<Football> footballList = footballReader.readAll();
+        Football footballExpected = new Football();
+        footballExpected.setTeam("Arsenal");
+        footballExpected.setGoals(79);
+        footballExpected.setGoalsAllowed(36);
+        assertNotNull(footballList);
+        System.out.println(footballList.stream().count());
+        assertTrue(footballList.stream().count() == 1);
+        Football footballActual = footballList.get(0);
+        assertEquals(footballExpected.getTeam(), footballActual.getTeam());
+        assertEquals(footballExpected.getGoals(), footballActual.getGoals());
+        assertEquals(footballExpected.getGoalsAllowed(), footballActual.getGoalsAllowed());
     }
 
     @Test
