@@ -41,8 +41,6 @@ public final class App {
             calculateWeather(WEATHER_CSV);
             calculateFootball(FOOTBALL_CSV);
         }
-
-
     }
 
     private static void calculateWeather(String filename) {
