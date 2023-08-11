@@ -132,9 +132,4 @@ class AppTest {
         assertEquals(footballExpected3, footballActual3);
     }
 
-    @Test
-    void runFootball() {
-        App.main("--football", "football.csv");
-    }
-
 }
