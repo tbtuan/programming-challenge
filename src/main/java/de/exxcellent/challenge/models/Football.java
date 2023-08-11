@@ -5,7 +5,7 @@ import com.opencsv.bean.CsvBindByName;
 public class Football {
     @CsvBindByName(column = "Team", required = true)
     private String team;
-    @CsvBindByName(column = "Games", required = true)
+    @CsvBindByName(column = "Goals", required = true)
     private int goals;
     @CsvBindByName(column = "Goals Allowed", required = true)
     private int goalsAllowed;
