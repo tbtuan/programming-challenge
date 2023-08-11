@@ -15,7 +15,6 @@ public class CSVFileReader<T> implements Reader {
     private String filename;
 
     /**
-     * To set up the file repository it requires a
      * @param tClass The type of the mapped object T
      * @param beanVerifier A BeanVerifier<T> to filter out beans that do not satisfy the condition
      * @param filename The location of a file
