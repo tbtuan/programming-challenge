@@ -29,12 +29,13 @@ public final class App {
     public static void main(String... args) {
         // Init service and controller
         if (args.length > 1 && args.length < 3) {
+            String csvFilename = args[1];
             switch(args[0]) {
                 case "--football":
-                    calculateFootball(args[1]);
+                    calculateFootball(csvFilename);
                     break;
                 case "--weather":
-                    calculateWeather(args[1]);
+                    calculateWeather(csvFilename);
                     break;
             }
         } else {
