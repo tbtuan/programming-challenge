@@ -74,7 +74,6 @@ class AppTest {
         footballExpected.setGoals(79);
         footballExpected.setGoalsAllowed(36);
         assertNotNull(footballList);
-        System.out.println(footballList.stream().count());
         assertTrue(footballList.stream().count() == 1);
         Football footballActual = footballList.get(0);
         assertEquals(footballExpected.getTeam(), footballActual.getTeam());
