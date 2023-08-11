@@ -1,14 +1,17 @@
 package de.exxcellent.challenge;
 
 import de.exxcellent.challenge.models.Weather;
+import de.exxcellent.challenge.readers.CSVFileReader;
+import de.exxcellent.challenge.readers.Reader;
 import de.exxcellent.challenge.services.WeatherService;
+import de.exxcellent.challenge.verifiers.WeatherBeanVerifier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Example JUnit 5 test case.
@@ -23,6 +26,39 @@ class AppTest {
     void setUp() {
         weatherService = new WeatherService(null);
         successLabel = "successful";
+    }
+
+    @Test
+    void csvReaderTest() {
+        Reader<Weather> weatherReader = new CSVFileReader(Weather.class, null, "mock/weather-mock.csv");
+        List<Weather> weathers = weatherReader.readAll();
+        Weather weatherExpected = new Weather();
+        weatherExpected.setDay(1);
+        weatherExpected.setMaxTemperature(88);
+        weatherExpected.setMinTemperature(59);
+        assertNotNull(weathers);
+        assertTrue(weathers.stream().count() == 1);
+        Weather weatherActual = weathers.get(0);
+        assertEquals(weatherExpected.getDay(), weatherActual.getDay());
+        assertEquals(weatherExpected.getMaxTemperature(), weatherActual.getMaxTemperature());
+        assertEquals(weatherExpected.getMinTemperature(), weatherActual.getMinTemperature());
+    }
+
+    @Test
+    void csvReaderVerifierTest() {
+        Reader<Weather> weatherReader = new CSVFileReader(Weather.class, new WeatherBeanVerifier(),
+                "mock/weather-malformed-mock.csv");
+        List<Weather> weathers = weatherReader.readAll();
+        Weather weatherExpected = new Weather();
+        weatherExpected.setDay(1);
+        weatherExpected.setMaxTemperature(88);
+        weatherExpected.setMinTemperature(59);
+        assertNotNull(weathers);
+        assertTrue(weathers.stream().count() == 1);
+        Weather weatherActual = weathers.get(0);
+        assertEquals(weatherExpected.getDay(), weatherActual.getDay());
+        assertEquals(weatherExpected.getMaxTemperature(), weatherActual.getMaxTemperature());
+        assertEquals(weatherExpected.getMinTemperature(), weatherActual.getMinTemperature());
     }
 
     @Test
